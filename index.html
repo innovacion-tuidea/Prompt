@@ -131,7 +131,6 @@
 
         .log { color: #888; font-size: 0.8rem; }
 
-        /* Estilos para la Guía (Modal) */
         #modalGuide {
             display: none;
             position: fixed;
@@ -159,7 +158,6 @@
         .modal-content h2 { color: var(--neon-green); border-bottom: 1px solid var(--neon-green); }
         .example-box { background: rgba(0,255,65,0.1); padding: 15px; border-radius: 5px; margin: 10px 0; border-left: 4px solid var(--neon-green); }
         
-        /* TRUCOS LLAMATIVOS */
         .tip-box { 
             background: rgba(0,255,65,0.05); 
             padding: 15px; 
@@ -167,6 +165,7 @@
             border-radius: 5px; 
             margin-top: 20px;
             animation: pulse-border 2s infinite ease-in-out;
+            min-height: 220px; /* Mantiene el tamaño constante */
         }
 
         @keyframes pulse-border {
@@ -175,14 +174,8 @@
             100% { box-shadow: 0 0 0px var(--neon-green); border-color: rgba(0, 255, 65, 0.3); }
         }
 
-        .tip-box strong {
-            color: var(--neon-green);
-            text-shadow: 0 0 5px var(--neon-green);
-        }
-
-        /* ESTILOS COPIADO RÁPIDO */
         .trick-item {
-            display: flex;
+            display: none; 
             justify-content: space-between;
             align-items: center;
             background: rgba(255, 255, 255, 0.03);
@@ -190,6 +183,7 @@
             padding: 8px 12px;
             border-radius: 5px;
             border: 1px solid rgba(0, 255, 65, 0.1);
+            min-height: 50px;
         }
 
         .trick-text {
@@ -213,6 +207,23 @@
             background: var(--neon-green);
             color: black;
             box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .btn-view-more {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-view-more:hover {
+            background: var(--neon-green);
+            color: black;
         }
 
         .close-modal { color: var(--neon-green); float: right; font-size: 28px; cursor: pointer; }
@@ -319,24 +330,61 @@
                 <em>Bien:</em> "Actúa como secretaria ejecutiva. Redacta una carta formal solicitando una reunión de presupuesto. Usa un tono persuasivo y destaca la urgencia."
             </div>
             
-            <div class="tip-box">
-                <strong>> TRUCO MAESTRO PARA EL CLUB:</strong><br>
-                Usa el comando <strong>@</strong> dentro de Gemini (web):<br><br>
+            <div class="tip-box" id="tricksContainer">
+                <strong style="color:var(--neon-green)">> TRUCOS MAESTROS (Página <span id="pageNum">1</span>):</strong><br>
+                <small style="color:#888">Usa el comando @ dentro de Gemini (web):</small><br><br>
                 
                 <div class="trick-item">
-                    <span class="trick-text"><strong>@Google Drive:</strong> "Busca el acta de presupuesto y resume el punto más discutido."</span>
+                    <span class="trick-text">1. <strong>@Google Drive:</strong> "Busca el acta de presupuesto y resume el punto más discutido."</span>
                     <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Busca el acta de presupuesto y resume el punto más discutido.')">COPIAR</button>
                 </div>
 
                 <div class="trick-item">
-                    <span class="trick-text"><strong>@Gmail:</strong> "Resumen del último correo recibido hoy."</span>
+                    <span class="trick-text">2. <strong>@Gmail:</strong> "Resumen del último correo recibido hoy."</span>
                     <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Resumen del último correo recibido hoy.')">COPIAR</button>
                 </div>
 
                 <div class="trick-item">
-                    <span class="trick-text"><strong>@Google Maps:</strong> "Busca una pizzería en Piantini abierta ahora y con parqueo."</span>
+                    <span class="trick-text">3. <strong>@Google Maps:</strong> "Busca una pizzería en Piantini abierta ahora y con parqueo."</span>
                     <button class="mini-copy-btn" onclick="copyTrick('@Google Maps: Busca una pizzería en Piantini abierta ahora y con parqueo.')">COPIAR</button>
                 </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">4. <strong>@Gmail:</strong> "Busca los correos de [Nombre] de la última semana y dime si hay alguna tarea pendiente para mí."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Busca los correos de [Nombre] de la última semana y dime si hay alguna tarea pendiente para mí.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">5. <strong>@Google Drive:</strong> "Busca los archivos de presupuesto de enero y febrero y hazme una tabla comparativa de los gastos en marketing."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Busca los archivos de presupuesto de enero y febrero y hazme una tabla comparativa de los gastos en marketing.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">6. <strong>@Google Maps:</strong> "Traza una ruta de un día en [Ciudad] que incluya solo museos de arte moderno y cafeterías con buena puntuación."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Maps: Traza una ruta de un día en [Ciudad] que incluya solo museos de arte moderno y cafeterías con buena puntuación.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">7. <strong>@Gmail:</strong> "Redacta una respuesta al último correo de [Nombre] usando los datos técnicos que están en el archivo [Nombre del Doc] de mi Drive."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Redacta una respuesta al último correo de [Nombre] usando los datos técnicos que están en el archivo [Nombre del Doc] de mi Drive.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">8. <strong>@Google Drive:</strong> "Encuentra mi última factura de [Empresa] y dime el monto total y la fecha límite de pago."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Encuentra mi última factura de [Empresa] y dime el monto total y la fecha límite de pago.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">9. <strong>@Gmail:</strong> "Busca mis confirmaciones de hotel y vuelo para mi viaje a [País] y crea un itinerario cronológico."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Busca mis confirmaciones de hotel y vuelo para mi viaje a [País] y crea un itinerario cronológico.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text">10. <strong>@YouTube:</strong> "Busca un tutorial de cocina para hacer [Plato] en menos de 15 minutos y lístame los ingredientes necesarios."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@YouTube: Busca un tutorial de cocina para hacer [Plato] en menos de 15 minutos y lístame los ingredientes necesarios.')">COPIAR</button>
+                </div>
+
+                <button id="viewMoreBtn" class="btn-view-more" onclick="cycleTricks()">SIGUIENTES TRUCOS >></button>
             </div>
             <br>
             <button onclick="toggleGuide(false)">ENTENDIDO</button>
@@ -345,6 +393,7 @@
 
     <script>
         let typingInterval;
+        let startIndex = 0; // Índice del primer truco visible
 
         async function processAI() {
             const terminal = document.getElementById('terminal');
@@ -396,6 +445,24 @@
             alert("Truco copiado al portapapeles.");
         }
 
+        function cycleTricks() {
+            const tricks = document.querySelectorAll('.trick-item');
+            
+            // Ocultar todos los actuales
+            tricks.forEach(t => t.style.display = 'none');
+            
+            // Mover el índice al siguiente par
+            startIndex += 2;
+            if (startIndex >= tricks.length) startIndex = 0; // Reiniciar al inicio
+
+            // Mostrar el nuevo par
+            tricks[startIndex].style.display = 'flex';
+            tricks[startIndex + 1].style.display = 'flex';
+
+            // Actualizar número de página visual (opcional)
+            document.getElementById('pageNum').innerText = (startIndex / 2) + 1;
+        }
+
         function clearTerminal() {
             clearInterval(typingInterval);
             document.getElementById('terminal').innerHTML = "Esperando parámetro pulsar el botón ejecutar algoritmo. ...";
@@ -404,5 +471,14 @@
 
         function toggleGuide(show) {
             document.getElementById('modalGuide').style.display = show ? 'block' : 'none';
+            if (show) {
+                // Asegurar que al abrir siempre empiece en el par 1 y 2
+                startIndex = 0;
+                const tricks = document.querySelectorAll('.trick-item');
+                tricks.forEach((t, index) => {
+                    t.style.display = index < 2 ? 'flex' : 'none';
+                });
+                document.getElementById('pageNum').innerText = "1";
+            }
         }
     </script></body></html>
