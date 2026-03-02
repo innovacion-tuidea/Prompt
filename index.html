@@ -158,7 +158,63 @@
 
         .modal-content h2 { color: var(--neon-green); border-bottom: 1px solid var(--neon-green); }
         .example-box { background: rgba(0,255,65,0.1); padding: 15px; border-radius: 5px; margin: 10px 0; border-left: 4px solid var(--neon-green); }
-        .tip-box { background: rgba(0,255,65,0.05); padding: 15px; border: 1px dashed var(--neon-green); border-radius: 5px; margin-top: 20px; }
+        
+        /* TRUCOS LLAMATIVOS */
+        .tip-box { 
+            background: rgba(0,255,65,0.05); 
+            padding: 15px; 
+            border: 1px dashed var(--neon-green); 
+            border-radius: 5px; 
+            margin-top: 20px;
+            animation: pulse-border 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0px var(--neon-green); border-color: rgba(0, 255, 65, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); border-color: var(--neon-green); }
+            100% { box-shadow: 0 0 0px var(--neon-green); border-color: rgba(0, 255, 65, 0.3); }
+        }
+
+        .tip-box strong {
+            color: var(--neon-green);
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+
+        /* ESTILOS COPIADO RÁPIDO */
+        .trick-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+        }
+
+        .trick-text {
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .mini-copy-btn {
+            background: transparent;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            width: auto;
+            margin: 0 0 0 10px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .mini-copy-btn:hover {
+            background: var(--neon-green);
+            color: black;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
         .close-modal { color: var(--neon-green); float: right; font-size: 28px; cursor: pointer; }
     </style></head><body>
 
@@ -237,7 +293,7 @@
         <div class="signature">bi Belliard</div>
     </div>
 
-    <div id="terminal">Esperando parámetros de entrada...</div>
+    <div id="terminal">Esperando parámetro pulsar el botón ejecutar algoritmo. ...</div>
     
     <div class="action-buttons">
         <button id="copyBtn" class="copy-btn" onclick="copyToClipboard()">COPIAR_PROMPT</button>
@@ -266,9 +322,21 @@
             <div class="tip-box">
                 <strong>> TRUCO MAESTRO PARA EL CLUB:</strong><br>
                 Usa el comando <strong>@</strong> dentro de Gemini (web):<br><br>
-                • <strong>@Google Drive:</strong> "Busca el acta de presupuesto y resume el punto más discutido."<br>
-                • <strong>@Gmail:</strong> "Resumen del último correo recibido hoy."<br>
-                • <strong>@Google Maps:</strong> "Busca una pizzería en Piantini abierta ahora y con parqueo."
+                
+                <div class="trick-item">
+                    <span class="trick-text"><strong>@Google Drive:</strong> "Busca el acta de presupuesto y resume el punto más discutido."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Busca el acta de presupuesto y resume el punto más discutido.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text"><strong>@Gmail:</strong> "Resumen del último correo recibido hoy."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Resumen del último correo recibido hoy.')">COPIAR</button>
+                </div>
+
+                <div class="trick-item">
+                    <span class="trick-text"><strong>@Google Maps:</strong> "Busca una pizzería en Piantini abierta ahora y con parqueo."</span>
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Maps: Busca una pizzería en Piantini abierta ahora y con parqueo.')">COPIAR</button>
+                </div>
             </div>
             <br>
             <button onclick="toggleGuide(false)">ENTENDIDO</button>
@@ -323,9 +391,14 @@
             alert("Prompt copiado con éxito.");
         }
 
+        function copyTrick(text) {
+            navigator.clipboard.writeText(text);
+            alert("Truco copiado al portapapeles.");
+        }
+
         function clearTerminal() {
             clearInterval(typingInterval);
-            document.getElementById('terminal').innerHTML = "Esperando parámetros de entrada...";
+            document.getElementById('terminal').innerHTML = "Esperando parámetro pulsar el botón ejecutar algoritmo. ...";
             document.getElementById('copyBtn').style.display = "none";
         }
 
