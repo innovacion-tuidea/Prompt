@@ -165,7 +165,7 @@
             border-radius: 5px; 
             margin-top: 20px;
             animation: pulse-border 2s infinite ease-in-out;
-            min-height: 220px; /* Mantiene el tamaño constante */
+            min-height: 220px;
         }
 
         @keyframes pulse-border {
@@ -251,14 +251,16 @@
                     <option value="un Analista Profesional con visión estratégica de datos">Analista Profesional</option>
                     <option value="un Asesor Profesional especializado en consultoría">Asesor Profesional</option>
                 </optgroup>
-                <optgroup label="Innovación y Futuro">
-                    <option value="un Director de Innovación y Transformación Digital">Director de Innovación</option>
-                    <option value="un Service Designer experto en Design Thinking">Diseñador de Servicios</option>
-                    <option value="un Consultor de Estrategia Prospectiva e Innovación">Consultor de Estrategia</option>
+                <optgroup label="Innovación y Docencia">
+                    <option value="un Facilitador de Formación Profesional experto en pedagogía por competencias">Facilitador de Formación</option>
+                    <option value="un Consultor de Estrategia e Innovación Institucional">Consultor de Estrategia</option>
+                    <option value="un Analista de Diseño Curricular y Recursos Didácticos">Analista Curricular</option>
                 </optgroup>
-                <optgroup label="Otros Perfiles del Club">
-                    <option value="un Senior Data Scientist">Científico de Datos</option>
-                    <option value="un Redactor Creativo especializado en ventas">Copywriter Pro</option>
+                <optgroup label="Gestión de Talento y Servicios">
+                    <option value="un Asesor de Capacitación y Vinculación Empresarial">Asesor de Capacitación</option>
+                    <option value="un Evaluador de Competencias Laborales">Evaluador Técnico</option>
+                    <option value="un Gestor de Pasantías y Empleabilidad">Gestor de Empleabilidad</option>
+                    <option value="un Encargado de Taller Tecnológico y Logística Educativa">Encargado de Taller</option>
                 </optgroup>
             </select>
         </div>
@@ -393,7 +395,7 @@
 
     <script>
         let typingInterval;
-        let startIndex = 0; // Índice del primer truco visible
+        let startIndex = 0; 
 
         async function processAI() {
             const terminal = document.getElementById('terminal');
@@ -447,19 +449,14 @@
 
         function cycleTricks() {
             const tricks = document.querySelectorAll('.trick-item');
-            
-            // Ocultar todos los actuales
             tricks.forEach(t => t.style.display = 'none');
             
-            // Mover el índice al siguiente par
             startIndex += 2;
-            if (startIndex >= tricks.length) startIndex = 0; // Reiniciar al inicio
+            if (startIndex >= tricks.length) startIndex = 0;
 
-            // Mostrar el nuevo par
             tricks[startIndex].style.display = 'flex';
             tricks[startIndex + 1].style.display = 'flex';
 
-            // Actualizar número de página visual (opcional)
             document.getElementById('pageNum').innerText = (startIndex / 2) + 1;
         }
 
@@ -472,7 +469,6 @@
         function toggleGuide(show) {
             document.getElementById('modalGuide').style.display = show ? 'block' : 'none';
             if (show) {
-                // Asegurar que al abrir siempre empiece en el par 1 y 2
                 startIndex = 0;
                 const tricks = document.querySelectorAll('.trick-item');
                 tricks.forEach((t, index) => {
