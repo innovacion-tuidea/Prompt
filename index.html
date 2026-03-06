@@ -1,324 +1,1937 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<!DOCTYPE html><html lang="es"><head>
+
+
+
     <meta charset="UTF-8">
+
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
     <title>Prompt Master Pro - Club IA</title>
+
+
+
     <style>
+
+
+
         :root {
+
+
+
             --neon-green: #00ff41;
+
+
+
             --dark-bg: #0a0a0a;
+
+
+
             --terminal-bg: #1a1a1a;
-            --neon-blue: #00d4ff;
+
+
+
         }
+
+
+
+
+
+
 
         body {
+
+
+
             background-color: var(--dark-bg);
+
+
+
             color: white;
+
+
+
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+
             display: flex;
+
+
+
             flex-direction: column;
+
+
+
             align-items: center;
+
+
+
             padding: 20px;
+
+
+
         }
+
+
+
+
+
+
 
         h1 {
+
+
+
             color: var(--neon-green);
+
+
+
             text-transform: uppercase;
+
+
+
             letter-spacing: 3px;
+
+
+
             text-shadow: 0 0 10px var(--neon-green);
+
+
+
         }
+
+
+
+
+
+
 
         .container {
+
+
+
             background: rgba(255, 255, 255, 0.05);
+
+
+
             backdrop-filter: blur(10px);
+
+
+
             padding: 30px;
+
+
+
             border-radius: 15px;
+
+
+
             border: 1px solid rgba(0, 255, 65, 0.3);
+
+
+
             width: 100%;
+
+
+
             max-width: 600px;
+
+
+
             position: relative; 
+
+
+
         }
+
+
+
+
+
+
 
         .signature {
+
+
+
             position: absolute;
+
+
+
             bottom: 10px;
+
+
+
             right: 20px;
+
+
+
             font-family: 'Brush Script MT', cursive;
+
+
+
             font-size: 0.9rem;
+
+
+
             color: rgba(0, 255, 65, 0.4);
+
+
+
             pointer-events: none;
+
+
+
             user-select: none;
+
+
+
+            text-shadow: 0 0 2px rgba(0, 255, 65, 0.2);
+
+
+
         }
 
-        .field-group { margin-bottom: 20px; }
+
+
+
+
+
+
+        .field-group {
+
+
+
+            margin-bottom: 20px;
+
+
+
+        }
+
+
+
+
+
+
 
         label {
+
+
+
             display: block;
+
+
+
             margin-bottom: 8px;
+
+
+
             font-weight: bold;
+
+
+
             color: var(--neon-green);
+
+
+
         }
+
+
+
+
+
+
 
         select, button {
+
+
+
             width: 100%;
+
+
+
             padding: 12px;
+
+
+
             background: var(--terminal-bg);
+
+
+
             color: white;
+
+
+
             border: 1px solid var(--neon-green);
+
+
+
             border-radius: 5px;
+
+
+
             font-size: 1rem;
+
+
+
             outline: none;
+
+
+
         }
+
+
+
+
+
+
 
         button {
+
+
+
             background: var(--neon-green);
+
+
+
             color: black;
+
+
+
             font-weight: bold;
+
+
+
             cursor: pointer;
+
+
+
             transition: 0.3s;
+
+
+
             margin-top: 10px;
+
+
+
         }
+
+
+
+
+
+
 
         button:hover {
+
+
+
             box-shadow: 0 0 20px var(--neon-green);
+
+
+
             transform: translateY(-2px);
+
+
+
         }
+
+
+
+
+
+
 
         #terminal {
+
+
+
             margin-top: 30px;
+
+
+
             background: var(--terminal-bg);
+
+
+
             border-left: 5px solid var(--neon-green);
+
+
+
             padding: 20px;
+
+
+
             width: 100%;
+
+
+
             max-width: 600px;
+
+
+
             min-height: 150px;
+
+
+
             font-family: 'Courier New', Courier, monospace;
+
+
+
             color: var(--neon-green);
+
+
+
             box-shadow: inset 0 0 10px #000;
+
+
+
+            position: relative;
+
+
+
             overflow-wrap: break-word;
+
+
+
             font-size: 0.9rem;
+
+
+
         }
+
+
+
+
+
+
+
+        #terminal::after {
+
+
+
+            content: "|";
+
+
+
+            animation: blink 1s infinite;
+
+
+
+        }
+
+
+
+
+
+
+
+        @keyframes blink {
+
+
+
+            50% { opacity: 0; }
+
+
+
+        }
+
+
+
+
+
+
 
         .action-buttons {
+
+
+
             display: flex;
-            flex-wrap: wrap;
+
+
+
             gap: 10px;
+
+
+
             width: 100%;
+
+
+
             max-width: 600px;
+
+
+
         }
 
-        .copy-btn, .clear-btn, .guide-btn, .curiosity-btn {
+
+
+
+
+
+
+        .copy-btn, .clear-btn, .guide-btn {
+
+
+
             background: transparent;
+
+
+
             color: var(--neon-green);
+
+
+
             border: 1px solid var(--neon-green);
+
+
+
             width: auto;
+
+
+
             padding: 8px 15px;
+
+
+
             font-size: 0.8rem;
+
+
+
             margin-top: 10px;
+
+
+
         }
 
-        .curiosity-btn {
-            color: var(--neon-blue);
-            border-color: var(--neon-blue);
-        }
 
-        .curiosity-btn:hover {
-            background: var(--neon-blue);
-            color: black;
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
 
-        /* MODALES */
-        #modalGuide, #monitorModal {
+
+
+
+
+        .copy-btn { display: none; }
+
+
+
+
+
+
+
+        .log { color: #888; font-size: 0.8rem; }
+
+
+
+
+
+
+
+        #modalGuide {
+
+
+
             display: none;
+
+
+
             position: fixed;
+
+
+
             z-index: 100;
-            left: 0; top: 0; width: 100%; height: 100%;
+
+
+
+            left: 0;
+
+
+
+            top: 0;
+
+
+
+            width: 100%;
+
+
+
+            height: 100%;
+
+
+
             background-color: rgba(0,0,0,0.9);
+
+
+
             overflow-y: auto;
+
+
+
         }
+
+
+
+
+
+
 
         .modal-content {
+
+
+
             background-color: var(--terminal-bg);
+
+
+
             margin: 5% auto;
+
+
+
             padding: 30px;
+
+
+
             border: 1px solid var(--neon-green);
+
+
+
             width: 80%;
+
+
+
             max-width: 700px;
+
+
+
             border-radius: 15px;
-        }
 
-        /* MONITOR CIENTIFICO */
-        .monitor-screen {
-            width: 85%;
-            max-width: 550px;
-            height: 450px;
-            margin: 5% auto;
-            background: #050505;
-            border: 10px solid #333;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-        }
 
-        .monitor-header {
-            background: #333;
-            color: var(--neon-blue);
-            padding: 5px 10px;
-            font-size: 0.7rem;
-            font-family: monospace;
-            display: flex;
-            justify-content: space-between;
-        }
 
-        .scroll-container {
-            height: 100%;
-            padding: 20px;
-            position: relative;
-        }
+            color: white;
 
-        .scrolling-text {
-            position: absolute;
-            top: 100%;
-            width: 90%;
-            animation: scroll-up 30s linear infinite;
-            color: var(--neon-blue);
-            font-family: 'Courier New', monospace;
+
+
             line-height: 1.6;
+
+
+
         }
 
-        .scrolling-text:hover {
-            animation-play-state: paused;
+
+
+
+
+
+
+        .modal-content h2 { color: var(--neon-green); border-bottom: 1px solid var(--neon-green); }
+
+
+
+        .example-box { background: rgba(0,255,65,0.1); padding: 15px; border-radius: 5px; margin: 10px 0; border-left: 4px solid var(--neon-green); }
+
+
+
+        
+
+
+
+        .tip-box { 
+
+
+
+            background: rgba(0,255,65,0.05); 
+
+
+
+            padding: 15px; 
+
+
+
+            border: 1px dashed var(--neon-green); 
+
+
+
+            border-radius: 5px; 
+
+
+
+            margin-top: 20px;
+
+
+
+            animation: pulse-border 2s infinite ease-in-out;
+
+
+
+            min-height: 220px;
+
+
+
         }
 
-        @keyframes scroll-up {
-            0% { top: 100%; }
-            100% { top: -180%; }
+
+
+
+
+
+
+        @keyframes pulse-border {
+
+
+
+            0% { box-shadow: 0 0 0px var(--neon-green); border-color: rgba(0, 255, 65, 0.3); }
+
+
+
+            50% { box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); border-color: var(--neon-green); }
+
+
+
+            100% { box-shadow: 0 0 0px var(--neon-green); border-color: rgba(0, 255, 65, 0.3); }
+
+
+
         }
 
-        .monitor-glitch {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
+
+
+
+
+
+
+        .trick-item {
+
+
+
+            display: none; 
+
+
+
+            justify-content: space-between;
+
+
+
+            align-items: center;
+
+
+
+            background: rgba(255, 255, 255, 0.03);
+
+
+
+            margin: 8px 0;
+
+
+
+            padding: 8px 12px;
+
+
+
+            border-radius: 5px;
+
+
+
+            border: 1px solid rgba(0, 255, 65, 0.1);
+
+
+
+            min-height: 50px;
+
+
+
         }
-    </style>
-</head>
-<body>
+
+
+
+
+
+
+
+        .trick-text {
+
+
+
+            font-size: 0.85rem;
+
+
+
+            color: #ccc;
+
+
+
+        }
+
+
+
+
+
+
+
+        .mini-copy-btn {
+
+
+
+            background: transparent;
+
+
+
+            color: var(--neon-green);
+
+
+
+            border: 1px solid var(--neon-green);
+
+
+
+            padding: 4px 8px;
+
+
+
+            font-size: 0.7rem;
+
+
+
+            width: auto;
+
+
+
+            margin: 0 0 0 10px;
+
+
+
+            cursor: pointer;
+
+
+
+            white-space: nowrap;
+
+
+
+        }
+
+
+
+
+
+
+
+        .mini-copy-btn:hover {
+
+
+
+            background: var(--neon-green);
+
+
+
+            color: black;
+
+
+
+            box-shadow: 0 0 10px var(--neon-green);
+
+
+
+        }
+
+
+
+
+
+
+
+        .btn-view-more {
+
+
+
+            background: rgba(0, 255, 65, 0.1);
+
+
+
+            border: 1px solid var(--neon-green);
+
+
+
+            color: var(--neon-green);
+
+
+
+            padding: 10px;
+
+
+
+            width: 100%;
+
+
+
+            cursor: pointer;
+
+
+
+            margin-top: 10px;
+
+
+
+            font-weight: bold;
+
+
+
+            transition: 0.3s;
+
+
+
+        }
+
+
+
+
+
+
+
+        .btn-view-more:hover {
+
+
+
+            background: var(--neon-green);
+
+
+
+            color: black;
+
+
+
+        }
+
+
+
+
+
+
+
+        .close-modal { color: var(--neon-green); float: right; font-size: 28px; cursor: pointer; }
+
+
+
+    </style></head><body>
+
+
+
+
+
+
 
     <h1>> PROMPT_MASTER_v2.0</h1>
+
+
+
     
+
+
+
     <div class="container">
+
+
+
         <div class="field-group">
+
+
+
             <label>Selecciona el ROL:</label>
+
+
+
             <select id="role">
-                <option value="una Asistente Administrativa experta">Asistente Administrativa</option>
-                <option value="un Facilitador de Formación Profesional">Facilitador de Formación</option>
-                <option value="un Analista Profesional">Analista Profesional</option>
-                <option value="un Director Regional">Director (a) Regional</option>
+
+
+
+                <optgroup label="Administración y Apoyo">
+
+
+
+                    <option value="una Asistente Administrativa experta en gestión ejecutiva">Asistente Administrativa</option>
+
+
+
+                    <option value="una Secretaria Ejecutiva de alta gerencia">Secretaria Ejecutiva</option>
+
+
+
+                    <option value="un Coordinador de Operaciones y Logística de oficina">Coordinador de Oficina</option>
+
+
+
+                    <option value="un Auxiliar Operativo enfocado en eficiencia y soporte técnico">Auxiliar Operativo</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Área Creativa y Audiovisual">
+
+
+
+                    <option value="un Diseñador de Recursos Gráficos especializado en materiales didácticos">Diseñador Recursos Gráficos</option>
+
+
+
+                    <option value="un Productor de Audiovisuales experto en contenido educativo y técnico">Productor de Audiovisuales</option>
+
+
+
+                    <option value="un Artista Digital experto en Concept Art">Artista Digital</option>
+
+
+
+                    <option value="un Fotógrafo Profesional">Fotógrafo Profesional</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Estrategia y Liderazgo">
+
+
+
+                    <option value="un Director Regional con visión estratégica de desarrollo">Director (a) Regional</option>
+
+
+
+                    <option value="un Encargado de Departamento enfocado en gestión por objetivos">Encargado de Departamento</option>
+
+
+
+                    <option value="un Técnico de Diseño Didáctico especializado en metodologías de enseñanza">Técnico de Diseño Didáctico</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Especialistas Profesionales">
+
+
+
+                    <option value="un Técnico Profesional experto en ejecución y soporte especializado">Técnico Profesional</option>
+
+
+
+                    <option value="un Analista Profesional con visión estratégica de datos y procesos">Analista Profesional</option>
+
+
+
+                    <option value="un Asesor Profesional especializado en consultoría técnica">Asesor Profesional</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Innovación y Docencia">
+
+
+
+                    <option value="un Facilitador de Formación Profesional experto en pedagogía">Facilitador de Formación</option>
+
+
+
+                    <option value="un Analista de Diseño Curricular">Analista Curricular</option>
+
+
+
+                    <option value="un Consultor de Estrategia">Consultor de Estrategia</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Gestión de Talento">
+
+
+
+                    <option value="un Asesor de Capacitación y Vinculación Empresarial">Asesor de Capacitación</option>
+
+
+
+                    <option value="un Evaluador de Competencias Laborales">Evaluador Técnico</option>
+
+
+
+                    <option value="un Gestor de Empleabilidad">Gestor de Empleabilidad</option>
+
+
+
+                </optgroup>
+
+
+
             </select>
+
+
+
         </div>
 
+
+
+
+
+
+
         <div class="field-group">
+
+
+
             <label>Selecciona la TAREA:</label>
+
+
+
             <select id="task">
-                <option value="redactar un acta de reunión detallada">Redactar Acta</option>
-                <option value="analizar este documento para extraer hallazgos">Analizar Documento</option>
-                <option value="redactar un correo profesional">Redactar Correo</option>
+
+
+
+                <optgroup label="Tareas de Secretaría">
+
+
+
+                    <option value="redactar un acta de reunión detallada, organizada por puntos y acuerdos">Redactar Acta de Reunión</option>
+
+
+
+                    <option value="organizar una agenda semanal optimizando tiempos y prioridades">Gestionar Agenda</option>
+
+
+
+                    <option value="preparar un itinerario de viaje de negocios con logística y contactos">Planificar Viaje/Logística</option>
+
+
+
+                    <option value="redactar un comunicado oficial para el personal o clientes">Redactar Comunicado</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Tareas de Arte">
+
+
+
+                    <option value="generar un prompt detallado para una imagen artística visualmente impactante">Crear Prompt de Imagen</option>
+
+
+
+                    <option value="describir un escenario cinematográfico con detalles de iluminación y textura">Diseñar Escena/Set</option>
+
+
+
+                    <option value="conceptualizar un personaje único con paleta de colores y estilo específico">Diseño de Personaje</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Tareas de Documentación">
+
+
+
+                    <option value="analizar este documento detalladamente para extraer hallazgos clave">Analizar Documento</option>
+
+
+
+                    <option value="revisar y corregir la gramática, el estilo y la coherencia de este texto">Corregir Documento</option>
+
+
+
+                    <option value="arreglar la estructura y el formato de este contenido para que sea profesional">Arreglar Contenido</option>
+
+
+
+                </optgroup>
+
+
+
+                <optgroup label="Tareas Generales">
+
+
+
+                    <option value="redactar un correo profesional, persuasivo y claro">Redactar Correo</option>
+
+
+
+                    <option value="resumir los puntos clave y extraer conclusiones de este texto">Resumir Texto</option>
+
+
+
+                </optgroup>
+
+
+
             </select>
+
+
+
         </div>
 
+
+
+
+
+
+
         <div class="field-group">
+
+
+
             <label>Selecciona el TONO:</label>
+
+
+
             <select id="tone">
-                <option value="profesional y corporativo">Profesional</option>
-                <option value="amable y servicial">Amable</option>
-                <option value="analítico enfocado en datos">Analítico</option>
+
+
+
+                <option value="profesional, serio y corporativo">Profesional</option>
+
+
+
+                <option value="amable, servicial y organizado">Asistencial/Amable</option>
+
+
+
+                <option value="artístico, evocador y descriptivo">Artístico/Visual</option>
+
+
+
+                <option value="creativo, inspirador y motivador">Inspirador</option>
+
+
+
+                <option value="analítico y enfocado en datos">Analítico</option>
+
+
+
             </select>
+
+
+
         </div>
+
+
+
+
+
+
 
         <button onclick="processAI()">EJECUTAR_ALGORITMO</button>
+
+
+
         <div class="signature">bi Belliard</div>
+
+
+
     </div>
 
-    <div id="terminal">Esperando parámetros...</div>
+
+
+
+
+
+
+    <div id="terminal">Esperando parámetro pulsar el botón ejecutar algoritmo. ...</div>
+
+
+
     
+
+
+
     <div class="action-buttons">
-        <button id="copyBtn" class="copy-btn" style="display:none" onclick="copyToClipboard()">COPIAR_PROMPT</button>
+
+
+
+        <button id="copyBtn" class="copy-btn" onclick="copyToClipboard()">COPIAR_PROMPT</button>
+
+
+
         <button class="clear-btn" onclick="clearTerminal()">LIMPIAR</button>
+
+
+
         <button class="guide-btn" onclick="toggleGuide(true)">GUÍA DE PROMPT</button>
-        <button class="curiosity-btn" onclick="toggleMonitor(true)">CURIOSIDAD_CIENTÍFICA</button>
+
+
+
     </div>
 
-    <div id="monitorModal">
-        <div class="monitor-screen">
-            <div class="monitor-header">
-                <span>IA_SCIENCE_DATA_STREAM</span>
-                <span style="cursor:pointer" onclick="toggleMonitor(false)">[X] CERRAR</span>
+
+
+
+
+
+
+    <div id="modalGuide">
+
+
+
+        <div class="modal-content">
+
+
+
+            <span class="close-modal" onclick="toggleGuide(false)">&times;</span>
+
+
+
+            <h2>Guía de Prompting Efectivo</h2>
+
+
+
+            
+
+
+
+            <p>Sigue estos consejos para mejorar tus resultados:</p>
+
+
+
+            <ul>
+
+
+
+                <li><strong>Contexto:</strong> Dale a la IA un marco de referencia.</li>
+
+
+
+                <li><strong>Claridad:</strong> Sé específico con lo que NO quieres.</li>
+
+
+
+                <li><strong>Formato:</strong> Indica si quieres una tabla, una lista o párrafos.</li>
+
+
+
+            </ul>
+
+
+
+            
+
+
+
+            <div class="example-box">
+
+
+
+                <strong>Ejemplo de mejora:</strong><br>
+
+
+
+                <em>Mal:</em> "Hazme una carta para un jefe."<br>
+
+
+
+                <em>Bien:</em> "Actúa como secretaria ejecutiva. Redacta una carta formal solicitando una reunión de presupuesto. Usa un tono persuasivo y destaca la urgencia."
+
+
+
             </div>
-            <div class="monitor-glitch"></div>
-            <div class="scroll-container">
-                <div class="scrolling-text">
-                    <h3 style="color:white; border-bottom:1px solid var(--neon-blue)">SECRETOS DE LA IA</h3>
-                    <p><strong>ATENCIÓN SELECTIVA:</strong> Los modelos como Gemini usan un "mecanismo de atención" para decidir qué parte de tu prompt es más importante. Al definir un ROL, el modelo prioriza ciertas conexiones neuronales.</p>
-                    <p><strong>VECTORES SEMÁNTICOS:</strong> Tu prompt se traduce a números en un espacio de miles de dimensiones. Las palabras "Educación" e "Innovación" están geográficamente cerca para la IA.</p>
-                    <p><strong>LIMITACIÓN DE ALUCINACIÓN:</strong> Al dar una estructura clara (Tarea + Tono), reduces la "entropía" del sistema, obligando a la IA a ser más precisa y menos creativa con los hechos.</p>
-                    <p><strong>CONTEXT WINDOW:</strong> La IA no recuerda quién eres para siempre; solo utiliza la información dentro de la "ventana de contexto" actual para generar la respuesta perfecta.</p>
-                    <p style="text-align:center; color:white;">*** FIN DE LA TRANSMISIÓN ***</p>
+
+
+
+            
+
+
+
+            <div class="tip-box" id="tricksContainer">
+
+
+
+                <strong style="color:var(--neon-green)">> TRUCOS MAESTROS (Página <span id="pageNum">1</span>):</strong><br>
+
+
+
+                <small style="color:#888">Usa el comando @ dentro de Gemini (web):</small><br><br>
+
+
+
+                
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">1. <strong>@Google Drive:</strong> "Busca el acta de presupuesto y resume el punto más discutido."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Busca el acta de presupuesto y resume el punto más discutido.')">COPIAR</button>
+
+
+
                 </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">2. <strong>@Gmail:</strong> "Resumen del último correo recibido hoy."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Resumen del último correo recibido hoy.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">3. <strong>@Google Maps:</strong> "Busca una pizzería en Piantini abierta ahora y con parqueo."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Maps: Busca una pizzería en Piantini abierta ahora y con parqueo.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">4. <strong>@Gmail:</strong> "Busca los correos de [Nombre] de la última semana y dime si hay alguna tarea pendiente para mí."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Busca los correos de [Nombre] de la última semana y dime si hay alguna tarea pendiente para mí.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">5. <strong>@Google Drive:</strong> "Busca los archivos de presupuesto de enero y febrero y hazme una tabla comparativa de los gastos en marketing."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Busca los archivos de presupuesto de enero y febrero y hazme una tabla comparativa de los gastos en marketing.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">6. <strong>@Google Maps:</strong> "Traza una ruta de un día en [Ciudad] que incluya solo museos de arte moderno y cafeterías con buena puntuación."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Maps: Traza una ruta de un día en [Ciudad] que incluya solo museos de arte moderno y cafeterías con buena puntuación.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">7. <strong>@Gmail:</strong> "Redacta una respuesta al último correo de [Nombre] usando los datos técnicos que están en el archivo [Nombre del Doc] de mi Drive."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Redacta una respuesta al último correo de [Nombre] usando los datos técnicos que están en el archivo [Nombre del Doc] de mi Drive.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">8. <strong>@Google Drive:</strong> "Encuentra mi última factura de [Empresa] y dime el monto total y la fecha límite de pago."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Google Drive: Encuentra mi última factura de [Empresa] y dime el monto total y la fecha límite de pago.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">9. <strong>@Gmail:</strong> "Busca mis confirmaciones de hotel y vuelo para mi viaje a [País] y crea un itinerario cronológico."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@Gmail: Busca mis confirmaciones de hotel y vuelo para mi viaje a [País] y crea un itinerario cronológico.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="trick-item">
+
+
+
+                    <span class="trick-text">10. <strong>@YouTube:</strong> "Busca un tutorial de cocina para hacer [Plato] en menos de 15 minutos y lístame los ingredientes necesarios."</span>
+
+
+
+                    <button class="mini-copy-btn" onclick="copyTrick('@YouTube: Busca un tutorial de cocina para hacer [Plato] en menos de 15 minutos y lístame los ingredientes necesarios.')">COPIAR</button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <button id="viewMoreBtn" class="btn-view-more" onclick="cycleTricks()">SIGUIENTES TRUCOS >></button>
+
+
+
             </div>
+
+
+
+            <br>
+
+
+
+            <button onclick="toggleGuide(false)">ENTENDIDO</button>
+
+
+
         </div>
+
+
+
     </div>
+
+
+
+
+
+
 
     <script>
+
+
+
         let typingInterval;
 
-        function processAI() {
+
+
+        let startIndex = 0; 
+
+
+
+
+
+
+
+        async function processAI() {
+
+
+
             const terminal = document.getElementById('terminal');
+
+
+
+            const copyBtn = document.getElementById('copyBtn');
+
+
+
+            clearInterval(typingInterval);
+
+
+
+            terminal.innerHTML = "";
+
+
+
+            copyBtn.style.display = "none";
+
+
+
+
+
+
+
+            const logEl = document.createElement('div');
+
+
+
+            logEl.className = "log";
+
+
+
+            logEl.innerText = "> Iniciando secuencia de procesamiento...";
+
+
+
+            terminal.appendChild(logEl);
+
+
+
+            
+
+
+
+            await new Promise(r => setTimeout(r, 800));
+
+
+
+
+
+
+
+            terminal.innerHTML += "<br>";
+
+
+
+            generatePrompt();
+
+
+
+        }
+
+
+
+
+
+
+
+        function generatePrompt() {
+
+
+
             const role = document.getElementById('role').value;
+
+
+
             const task = document.getElementById('task').value;
+
+
+
             const tone = document.getElementById('tone').value;
+
+
+
+            const copyBtn = document.getElementById('copyBtn');
+
+
+
+            const terminal = document.getElementById('terminal');
+
+
+
             
-            clearInterval(typingInterval);
-            terminal.innerHTML = "> Iniciando secuencia...<br>";
+
+
+
+            const fullPrompt = `Actúa como ${role}. Tu misión es ${task}. Es fundamental que el resultado final tenga un tono ${tone}. Por favor, estructura la información de manera profesional y espera a que te proporcione los datos específicos para comenzar.`;
+
+
+
             
-            const fullPrompt = `Actúa como ${role}. Tu misión es ${task}. Es fundamental que el resultado final tenga un tono ${tone}. Por favor, estructura la información de manera profesional y espera mi señal.`;
-            
+
+
+
             let i = 0;
+
+
+
             typingInterval = setInterval(() => {
+
+
+
                 if (i < fullPrompt.length) {
+
+
+
                     terminal.innerHTML += fullPrompt.charAt(i);
+
+
+
                     i++;
+
+
+
                 } else {
+
+
+
                     clearInterval(typingInterval);
-                    document.getElementById('copyBtn').style.display = "inline-block";
+
+
+
+                    copyBtn.style.display = "inline-block";
+
+
+
                 }
+
+
+
             }, 20);
+
+
+
         }
 
-        function toggleMonitor(show) {
-            document.getElementById('monitorModal').style.display = show ? 'block' : 'none';
-        }
 
-        function toggleGuide(show) {
-            // Aquí iría tu lógica de la guía anterior
-            alert("Abriendo Guía de Prompts..."); 
-        }
 
-        function clearTerminal() {
-            clearInterval(typingInterval);
-            document.getElementById('terminal').innerHTML = "Esperando parámetros...";
-            document.getElementById('copyBtn').style.display = "none";
-        }
+
+
+
 
         function copyToClipboard() {
-            const text = document.getElementById('terminal').innerText.replace("> Iniciando secuencia...", "").trim();
+
+
+
+            const text = document.getElementById('terminal').innerText.split("procesamiento...")[1].trim();
+
+
+
             navigator.clipboard.writeText(text);
-            alert("Prompt copiado.");
+
+
+
+            alert("Prompt copiado con éxito.");
+
+
+
         }
-    </script>
-</body>
-</html>
+
+
+
+
+
+
+
+        function copyTrick(text) {
+
+
+
+            navigator.clipboard.writeText(text);
+
+
+
+            alert("Truco copiado al portapapeles.");
+
+
+
+        }
+
+
+
+
+
+
+
+        function cycleTricks() {
+
+
+
+            const tricks = document.querySelectorAll('.trick-item');
+
+
+
+            tricks.forEach(t => t.style.display = 'none');
+
+
+
+            
+
+
+
+            startIndex += 2;
+
+
+
+            if (startIndex >= tricks.length) startIndex = 0;
+
+
+
+
+
+
+
+            tricks[startIndex].style.display = 'flex';
+
+
+
+            tricks[startIndex + 1].style.display = 'flex';
+
+
+
+
+
+
+
+            document.getElementById('pageNum').innerText = (startIndex / 2) + 1;
+
+
+
+        }
+
+
+
+
+
+
+
+        function clearTerminal() {
+
+
+
+            clearInterval(typingInterval);
+
+
+
+            document.getElementById('terminal').innerHTML = "Esperando parámetro pulsar el botón ejecutar algoritmo. ...";
+
+
+
+            document.getElementById('copyBtn').style.display = "none";
+
+
+
+        }
+
+
+
+
+
+
+
+        function toggleGuide(show) {
+
+
+
+            document.getElementById('modalGuide').style.display = show ? 'block' : 'none';
+
+
+
+            if (show) {
+
+
+
+                startIndex = 0;
+
+
+
+                const tricks = document.querySelectorAll('.trick-item');
+
+
+
+                tricks.forEach((t, index) => {
+
+
+
+                    t.style.display = index < 2 ? 'flex' : 'none';
+
+
+
+                });
+
+
+
+                document.getElementById('pageNum').innerText = "1";
+
+
+
+            }
+
+
+
+        }
+
+
+
+    </script></body></html>
