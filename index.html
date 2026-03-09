@@ -912,8 +912,81 @@
 
         .close-modal { color: var(--neon-green); float: right; font-size: 28px; cursor: pointer; }
 
+        #examContainer {
+            margin-top: 20px;
+        }
 
+        #examPrompt {
+            width: 100%;
+            height: 150px;
+            background: var(--terminal-bg);
+            color: white;
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
 
+        .progress-bg {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 15px 0;
+            height: 20px;
+            overflow: hidden;
+            border: 1px solid var(--neon-green);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--neon-green);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .feedback-list {
+            margin: 15px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .feedback-item {
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 3px solid #ff4b2b;
+            font-size: 0.9rem;
+            color: #ff4b2b;
+            transition: 0.3s;
+        }
+
+        .feedback-item.met {
+            background: rgba(0, 255, 65, 0.1);
+            border-left: 3px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .exam-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .exam-buttons button {
+            margin-top: 0;
+        }
+
+        .exit-btn {
+            grid-column: span 2;
+            background: transparent;
+            color: var(--neon-green);
+        }
     </style></head><body>
 
 
@@ -1252,28 +1325,40 @@
 
     <div id="terminal">Esperando parámetro pulsar el botón ejecutar algoritmo. ...</div>
 
-
-
-    
-
-
-
     <div class="action-buttons">
-
-
-
         <button id="copyBtn" class="copy-btn" onclick="copyToClipboard()">COPIAR_PROMPT</button>
-
-
-
         <button class="clear-btn" onclick="clearTerminal()">LIMPIAR</button>
-
-
-
         <button class="guide-btn" onclick="toggleGuide(true)">GUÍA DE PROMPT</button>
+        <button id="examBtn" class="guide-btn" onclick="toggleExam(true)">EXAMEN</button>
+    </div>
 
+    <div id="examContainer" class="container" style="display:none;">
+        <div class="field-group">
+            <label>Escribe tu prompt para tu área laboral:</label>
+            <textarea id="examPrompt" placeholder="Actúa como... mi tarea es..."></textarea>
+        </div>
 
+        <div class="progress-bg">
+            <div id="examProgressBar" class="progress-fill"></div>
+        </div>
+        <div style="text-align: center; color: var(--neon-green); font-weight: bold; margin-bottom: 10px;">
+            Progreso: <span id="examScore">0</span>%
+        </div>
 
+        <ul class="feedback-list">
+            <li id="crit-rol" class="feedback-item">Falta el ROL (quién actúa)</li>
+            <li id="crit-tarea" class="feedback-item">Falta la TAREA (qué debe hacer)</li>
+            <li id="crit-contexto" class="feedback-item">Falta el CONTEXTO (detalles del escenario)</li>
+            <li id="crit-formato" class="feedback-item">Falta el FORMATO (cómo debe presentar)</li>
+            <li id="crit-restricciones" class="feedback-item">Faltan las RESTRICCIONES (qué evitar)</li>
+        </ul>
+
+        <div class="exam-buttons">
+            <button onclick="evaluatePromptExam()">EVALÚA MI PROMPT</button>
+            <button onclick="resetExam()">NUEVO PROMPT</button>
+            <button class="exit-btn" onclick="toggleExam(false)">SALIR</button>
+        </div>
+        <div class="signature">bi Belliard</div>
     </div>
 
 
@@ -1891,46 +1976,106 @@
 
 
         function toggleGuide(show) {
-
-
-
             document.getElementById('modalGuide').style.display = show ? 'block' : 'none';
+            if (show) {
+                startIndex = 0;
+                const tricks = document.querySelectorAll('.trick-item');
+                tricks.forEach((t, index) => {
+                    t.style.display = index < 2 ? 'flex' : 'none';
+                });
+                document.getElementById('pageNum').innerText = "1";
+            }
+        }
 
-
+        function toggleExam(show) {
+            const mainContent = document.querySelectorAll('.container')[0];
+            const terminal = document.getElementById('terminal');
+            const actionButtons = document.querySelector('.action-buttons');
+            const examContainer = document.getElementById('examContainer');
 
             if (show) {
-
-
-
-                startIndex = 0;
-
-
-
-                const tricks = document.querySelectorAll('.trick-item');
-
-
-
-                tricks.forEach((t, index) => {
-
-
-
-                    t.style.display = index < 2 ? 'flex' : 'none';
-
-
-
-                });
-
-
-
-                document.getElementById('pageNum').innerText = "1";
-
-
-
+                mainContent.style.display = 'none';
+                terminal.style.display = 'none';
+                actionButtons.style.display = 'none';
+                examContainer.style.display = 'block';
+                resetExam();
+            } else {
+                mainContent.style.display = 'block';
+                terminal.style.display = 'block';
+                actionButtons.style.display = 'flex';
+                examContainer.style.display = 'none';
             }
-
-
-
         }
+
+        function updateExamProgress() {
+            const prompt = document.getElementById('examPrompt').value.toLowerCase();
+            let score = 0;
+
+            const criteria = [
+                {
+                    id: 'crit-rol',
+                    regex: /rol|actúa|eres|experto|especialista|como/i,
+                    met: false,
+                    text: 'ROL (quién actúa)'
+                },
+                {
+                    id: 'crit-tarea',
+                    regex: /tarea|haz|crea|redacta|genera|escribe|analiza|prepara/i,
+                    met: false,
+                    text: 'TAREA (qué debe hacer)'
+                },
+                {
+                    id: 'crit-contexto',
+                    regex: /contexto|escenario|situación|empresa|cliente|público|entorno|detalles/i,
+                    met: false,
+                    text: 'CONTEXTO (detalles del escenario)'
+                },
+                {
+                    id: 'crit-formato',
+                    regex: /formato|tabla|lista|párrafo|markdown|bullet|presenta|responde/i,
+                    met: false,
+                    text: 'FORMATO (cómo debe presentar)'
+                },
+                {
+                    id: 'crit-restricciones',
+                    regex: /restricciones|evita|no|sin|límite|máximo|mínimo|solo/i,
+                    met: false,
+                    text: 'RESTRICCIONES (qué evitar)'
+                }
+            ];
+
+            criteria.forEach(c => {
+                if (c.regex.test(prompt)) {
+                    c.met = true;
+                    score += 20;
+                    document.getElementById(c.id).classList.add('met');
+                    document.getElementById(c.id).innerText = '✓ ' + c.text;
+                } else {
+                    document.getElementById(c.id).classList.remove('met');
+                    document.getElementById(c.id).innerText = 'Falta el ' + c.text;
+                }
+            });
+
+            document.getElementById('examProgressBar').style.width = score + '%';
+            document.getElementById('examScore').innerText = score;
+            return score;
+        }
+
+        function evaluatePromptExam() {
+            const score = updateExamProgress();
+            if (score === 100) {
+                alert("¡Felicidades! Tu prompt está completo y listo para ser usado.");
+            } else {
+                alert("Todavía te faltan algunos elementos para llegar al 100%. Revisa la lista de control.");
+            }
+        }
+
+        function resetExam() {
+            document.getElementById('examPrompt').value = "";
+            updateExamProgress();
+        }
+
+        document.getElementById('examPrompt').addEventListener('input', updateExamProgress);
 
 
 
